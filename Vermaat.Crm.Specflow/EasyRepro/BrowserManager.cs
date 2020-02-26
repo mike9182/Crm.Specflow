@@ -76,10 +76,9 @@ namespace Vermaat.Crm.Specflow.EasyRepro
                     break;
             }
 
-            var combinedPath = Path.Combine(envWebDriver, driverFile);
-            if (!string.IsNullOrEmpty(envWebDriver) && File.Exists(combinedPath))
+            if (!string.IsNullOrEmpty(envWebDriver) && File.Exists(Path.Combine(envWebDriver, driverFile)))
             {
-                Logger.WriteLine($"Using driver path via environmentvariable. Driver path: {envWebDriver}. Combined Path: {combinedPath}");
+                Logger.WriteLine($"Using driver path via environmentvariable. Driver path: {envWebDriver}");
                 return envWebDriver;
             }
             else
