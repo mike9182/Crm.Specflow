@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading;
 using Vermaat.Crm.Specflow.EasyRepro;
+using Vermaat.Crm.Specflow.Entities;
 using Vermaat.Crm.Specflow.FormLoadConditions;
 
 namespace Vermaat.Crm.Specflow
@@ -106,7 +107,7 @@ namespace Vermaat.Crm.Specflow
                     driver.WaitUntilClickable(SeleniumFunctions.Selectors.GetXPathSeleniumSelector(SeleniumSelectorItems.Entity_FormLoad),
                         timeLeft,
                         null,
-                        d => { throw new TestExecutionException(Constants.ErrorCodes.FORM_LOAD_TIMEOUT); }
+                        () => { throw new TestExecutionException(Constants.ErrorCodes.FORM_LOAD_TIMEOUT); }
                     );
 
                     if(additionalConditions != null)
@@ -129,6 +130,21 @@ namespace Vermaat.Crm.Specflow
                 }
             }
             Logger.WriteLine("Form load completed");
+        }
+
+        public static DateTimeControl CreateDateTimeControl(DateTime? dateTime, string fieldName)
+        {
+            return CreateDateTimeControl(dateTime, fieldName, GlobalTestingContext.ConnectionManager.CurrentConnection.UserSettings);
+        }
+
+        public static DateTimeControl CreateDateTimeControl(DateTime? dateTime, string fieldName, UserSettings userSettings)
+        {
+            return new DateTimeControl(fieldName)
+            {
+                DateFormat = userSettings.DateFormat,
+                TimeFormat = userSettings.TimeFormat,
+                Value = dateTime
+            };
         }
 
     }

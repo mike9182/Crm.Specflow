@@ -91,7 +91,7 @@ namespace Vermaat.Crm.Specflow.EasyRepro
                     App.App.Entity.ClearValue(new OptionSet { Name = LogicalName });
                     break;
                 case AttributeTypeCode.DateTime:
-                    App.Client.SetValueFix(LogicalName, null, null, null);
+                    App.App.Entity.SetValue(HelperMethods.CreateDateTimeControl(null, LogicalName));
                     break;
                 default:
                     SetTextField(null);
@@ -114,7 +114,7 @@ namespace Vermaat.Crm.Specflow.EasyRepro
                 dateTime = dateTime.Add(offset);
             }
 
-            App.Client.SetValueFix(LogicalName, dateTime, GlobalTestingContext.ConnectionManager.CurrentConnection.UserSettings.DateFormat, GlobalTestingContext.ConnectionManager.CurrentConnection.UserSettings.TimeFormat);
+            App.App.Entity.SetValue(HelperMethods.CreateDateTimeControl(dateTime, LogicalName));
         }
 
         protected virtual void SetOptionSetField(OptionSetValue optionSetNumber, string optionSetLabel)

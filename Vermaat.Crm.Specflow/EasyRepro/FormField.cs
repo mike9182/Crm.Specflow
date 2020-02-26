@@ -75,7 +75,9 @@ namespace Vermaat.Crm.Specflow.EasyRepro
                 _form.ExpandTab(GetTabLabel());
 
             return App.WebDriver.WaitUntilVisible(By.XPath(
-                AppElements.Xpath[AppReference.Entity.TextFieldContainer].Replace("[NAME]", LogicalName)), TimeSpan.FromSeconds(5));
+                AppElements.Xpath[AppReference.Entity.TextFieldContainer].Replace("[NAME]", LogicalName)), 
+                TimeSpan.FromSeconds(5)) != null;
+
         }
 
         public bool IsLocked()
