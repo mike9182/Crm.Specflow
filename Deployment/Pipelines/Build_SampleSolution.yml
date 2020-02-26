@@ -139,6 +139,7 @@ stages:
           
           - task: VSTest@2
             displayName: 'Run SpecFlow Tests - API'
+            continueOnError: $(ContinueOnError)
             inputs:
               testSelector: 'testAssemblies'
               testAssemblyVer2: '**\Vermaat.Crm.SpecFlow.Sample.dll'
@@ -149,6 +150,7 @@ stages:
 
           - task: VSTest@2
             displayName: 'Run SpecFlow Tests - Chrome'
+            continueOnError: $(ContinueOnError)
             inputs:
               testSelector: 'testAssemblies'
               testAssemblyVer2: '**\Vermaat.Crm.SpecFlow.Sample.dll'
@@ -159,6 +161,7 @@ stages:
 
           - task: VSTest@2
             displayName: 'Run SpecFlow Tests - Firefox'
+            continueOnError: $(ContinueOnError)
             inputs:
               testSelector: 'testAssemblies'
               testAssemblyVer2: '**\Vermaat.Crm.SpecFlow.Sample.dll'

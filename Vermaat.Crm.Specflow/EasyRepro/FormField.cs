@@ -76,7 +76,7 @@ namespace Vermaat.Crm.Specflow.EasyRepro
 
             return App.WebDriver.WaitUntilVisible(
                 SeleniumFunctions.Selectors.GetXPathSeleniumSelector(SeleniumSelectorItems.Entity_FieldContainer, GetDefaultControl()),
-                TimeSpan.FromSeconds(5));
+                TimeSpan.FromSeconds(5)) != null;
         }
 
         public bool IsLocked()
