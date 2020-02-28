@@ -8,28 +8,35 @@ namespace Vermaat.Crm.Specflow.EasyRepro
 {
     public partial class ButtonTexts
     {
-        public ButtonTexts(bool setDefaults = true)
+        private readonly Dictionary<string, string> _buttonTexts;
+
+        public ButtonTexts()
         {
-            if (setDefaults)
-            {
-                SaveAndClose = "Save & Close";
-                New = "New";
-                Delete = "Delete";
-                Save = "Save";
-                ActivateQuote = "Activate Quote";
-                CreateOrder = "Create Order";
-                ReviseQuote = "Revise";
-                CloseQuote = "Close Quote";
-            }
+            _buttonTexts = new Dictionary<string, string>();
+            FillDictionary();
         }
 
-        public string SaveAndClose { get; set; }
-        public string New { get; set; }
-        public string Delete { get; set; }
-        public string Save { get; set; }
-        public string ActivateQuote { get; set; }
-        public string CreateOrder { get; set; }
-        public string ReviseQuote { get; set; }
-        public string CloseQuote { get; set; }
+        private void FillDictionary()
+        {
+            AddButtonText(Constants.ButtonTexts.ActivateQuote, "Errormessage with ErrorCode {0} not found");
+            AddButtonText(Constants.ButtonTexts.New, "New");
+            AddButtonText(Constants.ButtonTexts.Delete, "Delete");
+            AddButtonText(Constants.ButtonTexts.Save, "Save");
+            AddButtonText(Constants.ButtonTexts.ActivateQuote, "Activate Quote");
+            AddButtonText(Constants.ButtonTexts.CreateOrder, "Create Order");
+            AddButtonText(Constants.ButtonTexts.ReviseQuote, "Revise");
+            AddButtonText(Constants.ButtonTexts.CloseQuote, "Close Quote");
+        }
+
+        public void AddButtonText(string buttonTextKey, string buttonText)
+        {
+            _buttonTexts.Add(buttonTextKey, buttonText);
+        }
+
+        public string this[string key]
+        {
+            get { return _buttonTexts[key]; }
+            set { _buttonTexts[key] = value; }
+        }
     }
 }

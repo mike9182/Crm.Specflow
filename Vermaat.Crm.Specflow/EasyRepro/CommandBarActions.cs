@@ -73,13 +73,13 @@ namespace Vermaat.Crm.Specflow.EasyRepro
         public void ActivateQuote()
         {
             Logger.WriteLine("Activating Quote");
-            ClickButton(_app.ButtonTexts.ActivateQuote);
+            ClickButton(_app.ButtonTexts[Constants.ButtonTexts.ActivateQuote]);
         }
 
         public EntityReference CreateOrder()
         {
             Logger.WriteLine("Creating Sales Order from Quote");
-            ClickButton(_app.ButtonTexts.CreateOrder);
+            ClickButton(_app.ButtonTexts[Constants.ButtonTexts.CreateOrder]);
             CreateOrderDialog();
 
             return new EntityReference("salesorder", _app.App.Entity.GetObjectId());
@@ -88,7 +88,7 @@ namespace Vermaat.Crm.Specflow.EasyRepro
         public void Delete()
         {
             Logger.WriteLine($"Deleting record");
-            ClickButton(_app.ButtonTexts.Delete);
+            ClickButton(_app.ButtonTexts[Constants.ButtonTexts.Delete]);
             _app.App.Dialogs.ConfirmationDialog(true);
         }
 
@@ -97,7 +97,7 @@ namespace Vermaat.Crm.Specflow.EasyRepro
             Logger.WriteLine("Revising Quote");
             return _app.Client.Execute(BrowserOptionHelper.GetOptions($"Revise Quote"), driver =>
             {
-                ClickButton(_app.ButtonTexts.ReviseQuote);
+                ClickButton(_app.ButtonTexts[Constants.ButtonTexts.ReviseQuote]);
 
                 _app.Client.Browser.ThinkTime(1000);
                 HelperMethods.WaitForFormLoad(driver);

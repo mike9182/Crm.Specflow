@@ -23,6 +23,18 @@ namespace Vermaat.Crm.Specflow
             public const string TARGET_Edge = "Edge";
         }
 
+        public static class ButtonTexts
+        {
+            public const string SaveAndClose = "SaveAndClose";
+            public const string New = "New";
+            public const string Delete = "Delete";
+            public const string Save = "Save";
+            public const string ActivateQuote = "ActivateQuote";
+            public const string CreateOrder = "CreateOrder";
+            public const string ReviseQuote = "Revise";
+            public const string CloseQuote = "CloseQuote";
+        }
+
         public class CRM
         {
             public const string STATUSCODE = "statuscode";
