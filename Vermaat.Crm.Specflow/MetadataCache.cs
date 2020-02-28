@@ -29,7 +29,6 @@ namespace Vermaat.Crm.Specflow
         public AttributeMetadata GetAttributeMetadata(string entityName, string logicalName)
         {
             var entityData = GetEntityMetadata(entityName);
-
             var md = entityData.Attributes.Where(a => a.LogicalName.Equals(logicalName)).FirstOrDefault();
             
             Assert.IsNotNull(md, string.Format("Can't find attribute {0} on entity {1}", logicalName, entityName));
@@ -40,9 +39,7 @@ namespace Vermaat.Crm.Specflow
         public AttributeMetadata GetAttributeMetadata(string entityName, string displayName, int languageCode)
         {
             var entityMd = GetEntityMetadata(entityName);
-
             var attributeMd = entityMd.Attributes.Where(a => a.DisplayName.IsLabel(languageCode, displayName) || a.LogicalName.Equals(displayName)).ToArray();
-
 
             if (attributeMd.Length == 0)
                 throw new TestExecutionException(Constants.ErrorCodes.ATTRIBUTE_DOESNT_EXIST, displayName, entityName);
@@ -81,7 +78,7 @@ namespace Vermaat.Crm.Specflow
             Logger.WriteLine($"Getting attribute maps between {parentEntity} and {childEntity}");
             if(!_attributeMapCache.TryGetValue(parentEntity+childEntity, out DataCollection<Entity> result)) 
             {
-                Logger.WriteLine("Not cached yet. Retrieving from CRM");
+                Logger.WriteLine($"Maps not cached yet");
                 var query = new QueryExpression("attributemap");
                 query.ColumnSet.AddColumns("sourceattributename", "targetattributename");
 
@@ -97,8 +94,10 @@ namespace Vermaat.Crm.Specflow
 
         public Guid GetFormId(string entityName, string formName)
         {
-            if(!_formCache.TryGetValue($"{entityName}_{formName}", out Guid formId))
+            Logger.WriteLine($"Getting form ID for form {formName} of {entityName}");
+            if (!_formCache.TryGetValue($"{entityName}_{formName}", out Guid formId))
             {
+                Logger.WriteLine($"Form not cached yet");
                 var query = new QueryExpression("systemform")
                 {
                     TopCount = 1
