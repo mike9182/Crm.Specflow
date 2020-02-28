@@ -26,50 +26,6 @@ namespace Vermaat.Crm.Specflow.EasyRepro
         }
 
 
-        public bool IsButtonAvailable(string name)
-        {
-            return _app.Client.Execute(BrowserOptionHelper.GetOptions($"Check ribbon button"), driver =>
-            {
-                IWebElement ribbon = null;
-
-                //Find the button in the CommandBar
-                if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.Container])))
-                    ribbon = driver.FindElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.Container]));
-
-                if (ribbon == null)
-                {
-                    if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.ContainerGrid])))
-                        ribbon = driver.FindElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.ContainerGrid]));
-                    else
-                        throw new InvalidOperationException("Unable to find the ribbon.");
-                }
-
-                //Get the CommandBar buttons
-                var items = ribbon.FindElements(By.TagName("li"));
-
-                //Is the button in the ribbon?
-                if (items.Any(x => x.GetAttribute("aria-label").Equals(name, StringComparison.OrdinalIgnoreCase)))
-                {
-                    return true;
-                }
-                else
-                {
-                    //Is the button in More Commands?
-                    if (items.Any(x => x.GetAttribute("aria-label").Equals("More Commands", StringComparison.OrdinalIgnoreCase)))
-                    {
-                        //Click More Commands
-                        items.FirstOrDefault(x => x.GetAttribute("aria-label").Equals("More Commands", StringComparison.OrdinalIgnoreCase)).Click(true);
-                        driver.WaitForTransaction();
-
-                        //Find the button
-                        return driver.HasElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.Button].Replace("[NAME]", name)));
-                    }
-                    else
-                        return false;
-                }
-            });
-        }
-
         public void ActivateQuote()
         {
             Logger.WriteLine("Activating Quote");
@@ -85,6 +41,11 @@ namespace Vermaat.Crm.Specflow.EasyRepro
             return new EntityReference("salesorder", _app.App.Entity.GetObjectId());
         }
 
+        public bool IsButtonAvailable(string ribbonButton)
+        {
+            return _app.Client.IsRibbonButtonAvailable(ribbonButton);
+        }
+
         public void Delete()
         {
             Logger.WriteLine($"Deleting record");
@@ -95,24 +56,19 @@ namespace Vermaat.Crm.Specflow.EasyRepro
         public EntityReference ReviseQuote()
         {
             Logger.WriteLine("Revising Quote");
-            return _app.Client.Execute(BrowserOptionHelper.GetOptions($"Revise Quote"), driver =>
-            {
-                ClickButton(_app.ButtonTexts[Constants.ButtonTexts.ReviseQuote]);
+            ClickButton(_app.ButtonTexts[Constants.ButtonTexts.ReviseQuote]);
 
-                _app.Client.Browser.ThinkTime(1000);
-                HelperMethods.WaitForFormLoad(driver);
+            _app.Client.Browser.ThinkTime(1000);
+            HelperMethods.WaitForFormLoad(_app.WebDriver);
 
-                return new EntityReference("quote", _app.App.Entity.GetObjectId()); ;
-            }).Value;            
+            return new EntityReference("quote", _app.App.Entity.GetObjectId()); ;           
         }
-
-
 
         private void CreateOrderDialog()
         {
+            //Todo: Find a better place for this
             _app.Client.Execute(BrowserOptionHelper.GetOptions($"Create Sales Order"), driver =>
             {
-                
                 var container = driver.WaitUntilAvailable(SeleniumFunctions.Selectors.GetXPathSeleniumSelector(SeleniumSelectorItems.Dialog_Container));
                 var button = container.FindElement(SeleniumFunctions.Selectors.GetXPathSeleniumSelector(SeleniumSelectorItems.Dialog_OK));
 

@@ -69,8 +69,7 @@ namespace Vermaat.Crm.Specflow.Commands
             // Need to clear name from entityreference, as merge creates an error if an entityreference has its name filled.
             foreach(var remainingAttribute in result.Attributes)
             {
-                var value = remainingAttribute.Value as EntityReference;
-                if (value != null)
+                if (remainingAttribute.Value is EntityReference value)
                     value.Name = null;
             }
 

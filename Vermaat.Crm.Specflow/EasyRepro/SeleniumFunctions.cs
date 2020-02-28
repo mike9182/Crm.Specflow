@@ -136,8 +136,49 @@ namespace Vermaat.Crm.Specflow.EasyRepro
             });
         }
 
-       
-        
+        public static bool IsRibbonButtonAvailable(this WebClient client, string name)
+        {
+            return client.Execute(BrowserOptionHelper.GetOptions($"Check ribbon button"), driver =>
+            {
+                IWebElement ribbon = null;
+
+                //Find the button in the CommandBar
+                if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.Container])))
+                    ribbon = driver.FindElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.Container]));
+
+                if (ribbon == null)
+                {
+                    if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.ContainerGrid])))
+                        ribbon = driver.FindElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.ContainerGrid]));
+                    else
+                        throw new TestExecutionException(Constants.ErrorCodes.RIBBON_NOT_FOUND);
+                }
+
+                //Get the CommandBar buttons
+                var items = ribbon.FindElements(By.TagName("li"));
+
+                //Is the button in the ribbon?
+                if (items.Any(x => x.GetAttribute("aria-label").Equals(name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return true;
+                }
+                else
+                {
+                    //Is the button in More Commands?
+                    if (items.Any(x => x.GetAttribute("aria-label").Equals("More Commands", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        //Click More Commands
+                        items.FirstOrDefault(x => x.GetAttribute("aria-label").Equals("More Commands", StringComparison.OrdinalIgnoreCase)).Click(true);
+                        driver.WaitForTransaction();
+
+                        //Find the button
+                        return driver.HasElement(By.XPath(AppElements.Xpath[AppReference.CommandBar.Button].Replace("[NAME]", name)));
+                    }
+                    else
+                        return false;
+                }
+            });
+        }
 
     }
 }

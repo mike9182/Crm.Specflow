@@ -78,6 +78,7 @@ namespace Vermaat.Crm.Specflow
             public const int ASYNC_TIMEOUT = 34;
             public const int MULTIPLE_ATTRIBUTES_FOUND = 35;
             public const int APPLICATIONUSER_CANNOT_LOGIN = 36;
+            public const int RIBBON_NOT_FOUND = 37;
         }
     }
 }

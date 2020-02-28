@@ -232,6 +232,7 @@
     <Compile Include="FormLoadConditions\IFormLoadCondition.cs" />
     <Compile Include="FormLoadConditions\NoBusinessProcessError.cs" />
     <Compile Include="FormLoadConditions\RecordHasStatus.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GlobalTestingContext.cs" />
     <Compile Include="Steps\OpportunitySteps.cs" />
     <Compile Include="TestExecutionException.cs" />
@@ -241,7 +242,6 @@
     <Compile Include="CrmTestingContext.cs" />
     <Compile Include="EasyRepro\BrowserOptionHelper.cs" />
     <Compile Include="EasyRepro\CommandBarActions.cs" />
-    <Compile Include="EasyRepro\CompositeFields.cs" />
     <Compile Include="EasyRepro\FormState.cs" />
     <Compile Include="EasyRepro\RequiredState.cs" />
     <Compile Include="EasyRepro\UCIApp.cs" />

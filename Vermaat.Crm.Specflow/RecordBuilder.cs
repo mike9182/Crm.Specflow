@@ -15,7 +15,7 @@ namespace Vermaat.Crm.Specflow
     public class RecordBuilder
     {
         private readonly CrmTestingContext _crmContext;
-        private Dictionary<string, DefaultDataField[]> _defaultData;
+        private readonly Dictionary<string, DefaultDataField[]> _defaultData;
 
         public RecordBuilder(CrmTestingContext context)
         {
