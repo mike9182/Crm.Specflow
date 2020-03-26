@@ -139,7 +139,7 @@ stages:
           
           - task: VSTest@2
             displayName: 'Run SpecFlow Tests - API'
-            continueOnError: $(ContinueOnError)
+            continueOnError: '$(ContinueOnError)'
             inputs:
               testSelector: 'testAssemblies'
               testAssemblyVer2: '**\Vermaat.Crm.SpecFlow.Sample.dll'
